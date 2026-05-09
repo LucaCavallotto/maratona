@@ -86,3 +86,67 @@ export function formatTimeComponent(timeStr) {
 
     return formattedParts.join(':');
 }
+
+export function parseSmartInput(inputString) {
+    if (!inputString || typeof inputString !== 'string') return { status: 'incomplete' };
+    
+    // Normalize input
+    const normalized = inputString.replace(/;/g, ',').replace(/[^\d:,.\s?]/g, '');
+    
+    const parts = normalized.split(',').map(p => p.trim());
+    if (parts.length === 0) return { status: 'incomplete' };
+
+    // Identify what we have based on indices
+    const distancePart = parts[0];
+    const timePart = parts.length > 1 ? parts[1] : undefined;
+    const pacePart = parts.length > 2 ? parts[2] : undefined;
+    
+    let unknownCount = 0;
+    let unknownField = null;
+    
+    const fields = [
+        { name: 'distance', val: distancePart },
+        { name: 'time', val: timePart },
+        { name: 'pace', val: pacePart }
+    ];
+    
+    let distance = null;
+    let time = null;
+    let pace = null;
+
+    for (const field of fields) {
+        if (field.val === '?') {
+            unknownCount++;
+            unknownField = field.name;
+        } else if (field.val && field.val !== '') {
+            if (field.name === 'distance') {
+                distance = parseFloat(field.val.replace(',', '.'));
+            } else if (field.name === 'time') {
+                time = formatTimeComponent(field.val);
+            } else if (field.name === 'pace') {
+                pace = formatTimeComponent(field.val);
+            }
+        }
+    }
+
+    if (parts.length < 3) return { status: 'incomplete', partsCount: parts.length };
+    
+    if (unknownCount !== 1) return { status: 'invalid', message: 'Exactly one question mark (?) is required' };
+    
+    // Validate known fields
+    if (unknownField === 'distance') {
+        if (!validateTime(time) || !validateTime(pace, false)) return { status: 'invalid' };
+    } else if (unknownField === 'time') {
+        if (isNaN(distance) || distance <= 0 || !validateTime(pace, false)) return { status: 'invalid' };
+    } else if (unknownField === 'pace') {
+        if (isNaN(distance) || distance <= 0 || !validateTime(time)) return { status: 'invalid' };
+    }
+
+    return {
+        status: 'complete',
+        unknownField,
+        distance,
+        time,
+        pace
+    };
+}

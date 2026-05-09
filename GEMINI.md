@@ -3,7 +3,7 @@
 **Maratona** is a professional-grade running calculator designed for performance-driven athletes. It provides high-precision tools for calculating training zones, pace, time, distance, and unit conversions. The application emphasizes a "Calculator done right" philosophy, featuring a premium 3D flip-card interface that toggles between standard form inputs and interactive fine-tuning sliders.
 
 ### Core User Flow
-1. **Mode Selection**: User selects calculation type (Zones, Pace, Time, Distance, or Converter).
+1. **Mode Selection**: User selects calculation type (Quick DTP Input, Zones, Pace, Time, Distance, or Converter).
 2. **Input Interaction**: User enters data via standard keyboard inputs or switches to the **Fine-tuning (Back face)** for tactile slider adjustments.
 3. **Real-time Results**: Calculations update dynamically, providing detailed race predictions, split tables, and metabolic zones.
 4. **Action Items**: Users can copy results to the clipboard or reset for a new session.

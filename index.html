@@ -45,16 +45,18 @@
                                 <div class="custom-dropdown-toggle" id="calcModeToggle" role="combobox"
                                     aria-expanded="false" aria-haspopup="listbox" aria-controls="calcModeMenu"
                                     tabindex="0">
-                                    Training Zones Calculator
+                                    Quick DTP Input
                                 </div>
                                 <div class="custom-dropdown-menu" id="calcModeMenu" role="listbox">
-                                    <div class="custom-dropdown-item selected" data-value="zone" role="option"
-                                        aria-selected="true">
-                                        Training Zones Calculator</div>
+                                    <div class="custom-dropdown-item selected" data-value="smart" role="option"
+                                        aria-selected="true">Quick DTP Input</div>
                                     <div class="custom-dropdown-item" data-value="pace" role="option"
                                         aria-selected="false">Pace Calculator</div>
                                     <div class="custom-dropdown-item" data-value="time" role="option"
                                         aria-selected="false">Time Calculator</div>
+                                    <div class="custom-dropdown-item" data-value="zone" role="option"
+                                        aria-selected="false">
+                                        Training Zones Calculator</div>
                                     <div class="custom-dropdown-item" data-value="distance" role="option"
                                         aria-selected="false">Distance Calculator</div>
                                     <div class="custom-dropdown-item" data-value="converter" role="option"
@@ -62,9 +64,10 @@
                                 </div>
                             </div>
                             <select id="calcMode" class="original-select">
-                                <option value="zone">Training Zones Calculator</option>
+                                <option value="smart">Quick DTP Input</option>
                                 <option value="pace">Pace Calculator</option>
                                 <option value="time">Time Calculator</option>
+                                <option value="zone">Training Zones Calculator</option>
                                 <option value="distance">Distance Calculator</option>
                                 <option value="converter">Km-Mile Converter</option>
                             </select>
@@ -73,7 +76,8 @@
 
                     <div class="sidebar-body">
                         <div class="form-grid">
-                            <p class="input-hint" id="hintZone">Enter your recent 10K time recorded at a
+                            <p class="input-hint" id="hintSmart">Enter two known values and a question mark (?) for the unknown, separated by commas.</p>
+                            <p class="input-hint hidden" id="hintZone">Enter your recent 10K time recorded at a
                                 steady, maximal effort (e.g., 00:44:30).</p>
                             <p class="input-hint hidden" id="hintPace">Enter the distance and total time to calculate
                                 your average pace (e.g., 10 km, 00:45:00).</p>
@@ -84,8 +88,20 @@
                             <p class="input-hint hidden" id="hintConverter">Select conversion type and enter a value to
                                 convert units (e.g., 10 km).</p>
 
+                            <!-- Smart Inputs -->
+                            <div class="calculator-body" id="smartInputs">
+                                <div class="input-group">
+                                    <label class="label" for="smartInput">Distance, Time, Pace</label>
+                                    <div style="position: relative;">
+                                        <input type="text" id="smartInput" name="smartInput" class="input-field smart-input"
+                                            placeholder="10.88, ?, 4:30" autocomplete="off" autocorrect="off">
+                                        <span id="smartInlineHint" class="smart-inline-hint">Hint: Distance</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <!-- Zone Inputs -->
-                            <div class="calculator-body" id="zoneInputs">
+                            <div class="calculator-body hidden" id="zoneInputs">
                                 <div class="input-group">
                                     <label class="label" for="time10k">10K Time</label>
                                     <input type="text" id="time10k" name="time10k" class="input-field"
@@ -232,6 +248,7 @@
 
                         <div class="error-container">
                             <div class="error-text" id="errorZone">Invalid format. Use MM:SS or HH:MM:SS</div>
+                            <div class="error-text" id="errorSmart">Invalid pattern. Expected format: Distance, Time, Pace</div>
                             <div class="error-text" id="errorPace">Invalid input. Check distance and time format</div>
                             <div class="error-text" id="errorTime">Invalid input. Check distance and pace format</div>
                             <div class="error-text" id="errorDistance">Invalid input. Check time and pace format</div>

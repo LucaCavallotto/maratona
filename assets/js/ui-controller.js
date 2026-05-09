@@ -1,4 +1,4 @@
-import { presetDistances } from './utils.js';
+import { presetDistances, parseSmartInput } from './utils.js';
 
 export const UIState = {
     isCalculated: false,
@@ -278,6 +278,11 @@ export function enableCalculate() {
             const val = document.getElementById('time10k').value.trim();
             isValid = val !== '';
             hasValue = isValid;
+        } else if (mode === 'smart') {
+            const val = document.getElementById('smartInput').value.trim();
+            const parsed = parseSmartInput(val);
+            isValid = parsed.status === 'complete';
+            hasValue = val !== '';
         } else if (mode === 'pace') {
             const d = document.getElementById('distancePace').value.trim();
             const t = document.getElementById('timePace').value.trim();
@@ -391,6 +396,13 @@ export function resetUI(skipLayoutReset = false) {
     UIState.isCalculated = false;
 
     document.getElementById('time10k').value = '';
+    
+    const smartInput = document.getElementById('smartInput');
+    if (smartInput) smartInput.value = '';
+    const smartInlineHint = document.getElementById('smartInlineHint');
+    if (smartInlineHint) {
+        smartInlineHint.textContent = 'Hint: Distance';
+    }
 
     // Reset hidden selects
     document.getElementById('distancePresetPace').value = 'custom';
@@ -448,6 +460,7 @@ export function resetUI(skipLayoutReset = false) {
 export function switchCalcMode(mode, skipLayoutReset = false) {
     // Toggle Calculator Bodies
     document.getElementById('zoneInputs').classList.add('hidden');
+    document.getElementById('smartInputs').classList.add('hidden');
     document.getElementById('paceInputs').classList.add('hidden');
     document.getElementById('timeInputs').classList.add('hidden');
     document.getElementById('distanceInputs').classList.add('hidden');
@@ -459,6 +472,9 @@ export function switchCalcMode(mode, skipLayoutReset = false) {
     if (mode === 'zone') {
         document.getElementById('zoneInputs').classList.remove('hidden');
         document.getElementById('hintZone').classList.remove('hidden');
+    } else if (mode === 'smart') {
+        document.getElementById('smartInputs').classList.remove('hidden');
+        document.getElementById('hintSmart').classList.remove('hidden');
     } else if (mode === 'pace') {
         document.getElementById('paceInputs').classList.remove('hidden');
         document.getElementById('hintPace').classList.remove('hidden');

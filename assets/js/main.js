@@ -1,4 +1,4 @@
-import { normalizeInput, validateTime, secondsToTime, secondsToPace, presetDistances, formatTimeComponent } from './utils.js';
+import { normalizeInput, validateTime, secondsToTime, secondsToPace, presetDistances, formatTimeComponent, parseSmartInput } from './utils.js';
 import {
     calculateThresholdPace,
     calculateZones,
@@ -39,6 +39,13 @@ function validateInputsForMode(mode) {
         const timeInput = normalizeInput(document.getElementById('time10k').value.trim());
         if (!validateTime(timeInput)) {
             showError('errorZone');
+            return false;
+        }
+    } else if (mode === 'smart') {
+        const val = document.getElementById('smartInput').value.trim();
+        const parsed = parseSmartInput(val);
+        if (parsed.status !== 'complete') {
+            showError('errorSmart');
             return false;
         }
     } else if (mode === 'pace') {
@@ -171,6 +178,41 @@ async function handleCalculate(e) {
 
         document.getElementById('results').style.display = 'block';
         document.getElementById('zoneResults').classList.remove('hidden');
+
+    } else if (mode === 'smart') {
+        const val = document.getElementById('smartInput').value.trim();
+        const parsed = parseSmartInput(val);
+        
+        if (parsed.unknownField === 'pace') {
+            const payload = calculatePaceMetrics(parsed.distance, parsed.time);
+            UIState.currentResults = { mode: 'pace', distance: parsed.distance, distanceLabel: `${parsed.distance} km`, distanceMiles: payload.distanceMiles, paceMinMile: payload.paceMinMile, time: parsed.time, pace: payload.paceString, speedKmH: payload.speedKmH, speedMS: payload.speedMS, speedMpH: payload.speedMpH, splits: payload.splits };
+            renderPaceTimeResults(document.getElementById('paceTimeResults'), [
+                { label: 'Distance', value: { num: parsed.distance, unit: ' km' }, subValue: { num: payload.distanceMiles, unit: ' mi' } },
+                { label: 'Time', value: { num: parsed.time, unit: '' } },
+                { label: 'Pace', value: { num: payload.paceString, unit: '/km' }, subValue: { num: payload.paceMinMile, unit: '/mi' } },
+                { label: 'Speed', value: { num: payload.speedKmH, unit: ' km/h' }, subValue: [{ num: payload.speedMS, unit: ' m/s' }, { num: payload.speedMpH, unit: ' mph' }] }
+            ], payload.splits, 'Pace');
+        } else if (parsed.unknownField === 'time') {
+            const payload = calculateTimeMetrics(parsed.distance, parsed.pace);
+            UIState.currentResults = { mode: 'time', distance: parsed.distance, distanceLabel: `${parsed.distance} km`, distanceMiles: payload.distanceMiles, paceMinMile: payload.paceMinMile, pace: parsed.pace, totalTime: payload.totalTime, speedKmH: payload.speedKmH, speedMS: payload.speedMS, speedMpH: payload.speedMpH, splits: payload.splits };
+            renderPaceTimeResults(document.getElementById('paceTimeResults'), [
+                { label: 'Distance', value: { num: parsed.distance, unit: ' km' }, subValue: { num: payload.distanceMiles, unit: ' mi' } },
+                { label: 'Total Time', value: { num: payload.totalTime, unit: '' } },
+                { label: 'Pace', value: { num: parsed.pace, unit: '/km' }, subValue: { num: payload.paceMinMile, unit: '/mi' } },
+                { label: 'Speed', value: { num: payload.speedKmH, unit: ' km/h' }, subValue: [{ num: payload.speedMS, unit: ' m/s' }, { num: payload.speedMpH, unit: ' mph' }] }
+            ], payload.splits, 'Total Time');
+        } else if (parsed.unknownField === 'distance') {
+            const payload = calculateDistanceMetrics(parsed.time, parsed.pace);
+            UIState.currentResults = { mode: 'distance', time: parsed.time, pace: parsed.pace, distance: payload.distanceValue, distanceLabel: payload.distanceLabel, distanceMiles: payload.distanceMiles, paceMinMile: payload.paceMinMile, speedKmH: payload.speedKmH, speedMS: payload.speedMS, speedMpH: payload.speedMpH, splits: payload.splits };
+            renderPaceTimeResults(document.getElementById('paceTimeResults'), [
+                { label: 'Distance', value: { num: payload.distanceValue.toFixed(2), unit: ' km' }, subValue: { num: payload.distanceMiles, unit: ' mi' } },
+                { label: 'Total Time', value: { num: parsed.time, unit: '' } },
+                { label: 'Pace', value: { num: parsed.pace, unit: '/km' }, subValue: { num: payload.paceMinMile, unit: '/mi' } },
+                { label: 'Speed', value: { num: payload.speedKmH, unit: ' km/h' }, subValue: [{ num: payload.speedMS, unit: ' m/s' }, { num: payload.speedMpH, unit: ' mph' }] }
+            ], payload.splits, 'Distance');
+        }
+        
+        document.getElementById('results').style.display = 'block';
 
     } else if (mode === 'pace') {
         const distanceString = normalizeInput(document.getElementById('distancePace').value.trim());
@@ -446,6 +488,30 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.calculateBtn').forEach(btn => btn.addEventListener('click', handleCalculate));
     document.querySelectorAll('.resetBtn').forEach(btn => btn.addEventListener('click', handleReset));
     document.querySelectorAll('.copyBtn').forEach(btn => btn.addEventListener('click', handleCopy));
+
+    // Smart Input Dynamic Listener
+    const smartInput = document.getElementById('smartInput');
+    if (smartInput) {
+        smartInput.addEventListener('input', function(e) {
+            const val = this.value;
+            const smartInlineHint = document.getElementById('smartInlineHint');
+            
+            if (val.trim() === '') {
+                smartInlineHint.textContent = 'Hint: Distance';
+            } else {
+                const commas = (val.match(/,/g) || []).length;
+                if (commas === 0) {
+                    smartInlineHint.textContent = 'Hint: Distance';
+                } else if (commas === 1) {
+                    smartInlineHint.textContent = 'Hint: Time';
+                } else if (commas === 2) {
+                    smartInlineHint.textContent = 'Hint: Pace';
+                } else {
+                    smartInlineHint.textContent = '';
+                }
+            }
+        });
+    }
 
     // Dropdown Form Triggers
     document.getElementById('calcMode').addEventListener('change', async function () {
