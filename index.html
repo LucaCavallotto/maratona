@@ -54,11 +54,11 @@
                                         aria-selected="false">Pace Calculator</div>
                                     <div class="custom-dropdown-item" data-value="time" role="option"
                                         aria-selected="false">Time Calculator</div>
+                                    <div class="custom-dropdown-item" data-value="distance" role="option"
+                                        aria-selected="false">Distance Calculator</div>
                                     <div class="custom-dropdown-item" data-value="zone" role="option"
                                         aria-selected="false">
                                         Training Zones Calculator</div>
-                                    <div class="custom-dropdown-item" data-value="distance" role="option"
-                                        aria-selected="false">Distance Calculator</div>
                                     <div class="custom-dropdown-item" data-value="converter" role="option"
                                         aria-selected="false">Km-Mile Converter</div>
                                 </div>
@@ -67,8 +67,8 @@
                                 <option value="smart">Quick DTP Input</option>
                                 <option value="pace">Pace Calculator</option>
                                 <option value="time">Time Calculator</option>
-                                <option value="zone">Training Zones Calculator</option>
                                 <option value="distance">Distance Calculator</option>
+                                <option value="zone">Training Zones Calculator</option>
                                 <option value="converter">Km-Mile Converter</option>
                             </select>
                         </div>
@@ -92,11 +92,9 @@
                             <div class="calculator-body" id="smartInputs">
                                 <div class="input-group">
                                     <label class="label" for="smartInput">Distance, Time, Pace</label>
-                                    <div style="position: relative;">
-                                        <input type="text" id="smartInput" name="smartInput" class="input-field smart-input"
-                                            placeholder="10.88, ?, 4:30" autocomplete="off" autocorrect="off">
-                                        <span id="smartInlineHint" class="smart-inline-hint">Hint: Distance</span>
-                                    </div>
+                                    <input type="text" id="smartInput" name="smartInput" class="input-field smart-input"
+                                        placeholder="10.88, ?, 4:30" autocomplete="off" autocorrect="off">
+                                    <span id="smartInlineHint" class="smart-inline-hint">Hint: Distance (00.00) or ? then "," to proceed</span>
                                 </div>
                             </div>
                             

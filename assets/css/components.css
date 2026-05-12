@@ -611,12 +611,11 @@
 }
 
 .smart-inline-hint {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
+    display: block;
+    margin-top: 8px;
     font-size: 13px;
     color: var(--text-placeholder);
+    text-align: left;
     pointer-events: none;
     transition: opacity 0.2s ease;
     font-family: var(--font-sans);

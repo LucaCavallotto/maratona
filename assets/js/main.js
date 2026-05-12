@@ -492,25 +492,64 @@ document.addEventListener('DOMContentLoaded', () => {
     // Smart Input Dynamic Listener
     const smartInput = document.getElementById('smartInput');
     if (smartInput) {
-        smartInput.addEventListener('input', function(e) {
-            const val = this.value;
+        const updateSmartHint = function() {
+            const val = smartInput.value;
             const smartInlineHint = document.getElementById('smartInlineHint');
             
-            if (val.trim() === '') {
-                smartInlineHint.textContent = 'Hint: Distance';
-            } else {
-                const commas = (val.match(/,/g) || []).length;
-                if (commas === 0) {
-                    smartInlineHint.textContent = 'Hint: Distance';
-                } else if (commas === 1) {
-                    smartInlineHint.textContent = 'Hint: Time';
-                } else if (commas === 2) {
-                    smartInlineHint.textContent = 'Hint: Pace';
+            if (!smartInlineHint) return;
+
+            const updateHint = (text, type = 'hint') => {
+                smartInlineHint.textContent = text;
+                if (type === 'error') {
+                    smartInlineHint.style.color = 'var(--error-color)';
+                    smartInlineHint.style.opacity = '1';
+                } else if (type === 'success') {
+                    smartInlineHint.style.color = 'var(--success-color)';
+                    smartInlineHint.style.opacity = '1';
                 } else {
-                    smartInlineHint.textContent = '';
+                    smartInlineHint.style.color = 'var(--text-placeholder)';
+                    smartInlineHint.style.opacity = '0.8';
+                }
+            };
+            
+            if (val.trim() === '') {
+                updateHint('Hint: Distance (00.00) or ? then "," to proceed');
+            } else {
+                const parts = val.split(',').map(p => p.trim());
+                const commas = (val.match(/,/g) || []).length;
+                const qMarks = (val.match(/\?/g) || []).length;
+
+                if (commas === 0) {
+                    updateHint('Hint: Distance (00.00) or ? then "," to proceed');
+                } else if (commas === 1) {
+                    updateHint('Hint: Time (HH:MM:SS) or ? then "," to proceed');
+                } else if (commas === 2) {
+                    if (qMarks === 0) {
+                        const pacePart = parts[2] || '';
+                        if (pacePart === '') {
+                            updateHint('Hint: ? to solve');
+                        } else {
+                            updateHint('Error: Exactly one "?" is required', 'error');
+                        }
+                    } else if (qMarks === 1) {
+                        const allFilled = parts.length === 3 && parts.every(p => p !== '');
+                        if (allFilled) {
+                            updateHint('Ready! Press Enter or Click Calculate', 'success');
+                        } else {
+                            updateHint('Hint: Pace (MM:SS)');
+                        }
+                    } else {
+                        updateHint('Error: Exactly one "?" is required', 'error');
+                    }
+                } else {
+                    updateHint('Error: Max 2 commas allowed', 'error');
                 }
             }
-        });
+        };
+
+        smartInput.addEventListener('input', updateSmartHint);
+        // Initialize hint immediately
+        updateSmartHint();
     }
 
     // Dropdown Form Triggers
@@ -634,7 +673,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (e.key && e.key.toLowerCase() === 'f' && !isInputFocus) {
             // Check if flip is allowed for current mode
             const mode = document.getElementById('calcMode').value;
-            if (['pace', 'time', 'distance'].includes(mode)) {
+            if (['pace', 'time', 'distance', 'smart'].includes(mode) && UIState.isCalculated) {
                 e.preventDefault();
                 if (isFlipped()) {
                     flipToFront();

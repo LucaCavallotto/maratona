@@ -4,10 +4,10 @@
 
 ## Getting Started
 
-Maratona includes five essential tools for runners. Select your mode from the dropdown and start calculating:
+Maratona includes six essential tools for runners. Select your mode from the dropdown and start calculating:
 
-### 1. Training Zones Calculator
-Input your recent best 10K time to generate personalized training zones (Z1 to Z7). This tool also provides race predictions for 5K, 10K, Half Marathon, and Marathon distances based on your threshold pace.
+### 1. Quick DTP Input (Distance, Time, Pace)
+The fastest way to calculate your metrics. Type any two values separated by commas (e.g., `10, ?, 4:30` or `?, 00:45:00, 4:30`) to solve for the missing variable. "DTP" stands for **Distance, Time, and Pace**. This "Smart" input automatically detects your intent and calculates the unknown field (marked with a `?`).
 
 ### 2. Pace Calculator
 Calculate your average pace based on a given distance and total time. Includes quick presets for common race distances (5K, 10K, HM, Marathon) and generates 1km splits.
@@ -18,10 +18,13 @@ Determine your total race time based on a target distance and pace. Useful for p
 ### 4. Distance Calculator
 Find out how far you can run in a specific time at a given pace. Perfect for time-based training sessions.
 
-### 5. Km-Mile Converter
+### 5. Training Zones Calculator
+Input your recent best 10K time to generate personalized training zones (Z1 to Z7). This tool also provides race predictions for 5K, 10K, Half Marathon, and Marathon distances based on your threshold pace.
+
+### 6. Km-Mile Converter
 Instantly convert distances and paces between kilometers and miles.
 
-### 6. Interactive Fine-tuning
+### 7. Interactive Fine-tuning
 Switch between the standard input form and interactive range sliders (Distance, Time, Pace) for a more tactile experience. Perfect for seeing how small adjustments to your pace affect your finish time or distance.
 
 ## Additional Features & Instructions

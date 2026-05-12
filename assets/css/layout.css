@@ -196,6 +196,19 @@
         padding: 0 32px 32px 32px;
     }
 
+    /* Ensure calculator bodies have enough height to prevent flipper collapse 
+       when switching to the back face (which has 3 sliders) */
+    .calculator-body {
+        min-height: 220px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .calculator-body .input-group:last-child {
+        margin-bottom: 0;
+    }
+
     /* Inputs will naturally stack using flex-direction: column from the base styles */
 }
 

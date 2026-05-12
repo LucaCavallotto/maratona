@@ -9,10 +9,9 @@
  *   #sliderPace     → value in seconds/km (120 – 900, step 1)  [i.e., 2:00–15:00 /km]
  */
 
-import { secondsToPace, secondsToTime } from './utils.js';
+import { secondsToPace, secondsToTime, parseSmartInput, presetDistances } from './utils.js';
 import { calculatePaceMetrics } from './calculators.js';
 import { renderPaceTimeResults, showResultsGrid, clearOldResults, triggerSlideTransition, UIState, enableCalculate } from './ui-controller.js';
-import { presetDistances } from './utils.js';
 
 // ──────────────────────────────────────────────────────────
 // Helpers
@@ -148,30 +147,72 @@ export function syncFrontToSliders() {
     // Use current calculation context values if available first
     let distKm = 10, timeMins = 50, paceSecs = 300;
 
-    // Read values from text inputs based on active mode
-    if (mode === 'pace') {
-        const d = parseFloat(document.getElementById('distancePace')?.value);
-        const t = timeStringToMinutes(document.getElementById('timePace')?.value);
-        if (!isNaN(d) && d > 0 && t > 0) {
-            distKm = d;
-            timeMins = t;
-            paceSecs = (t * 60) / d;
+    // Prioritize existing calculation results
+    if (UIState.currentResults) {
+        if (UIState.currentResults.distance) distKm = parseFloat(UIState.currentResults.distance);
+        
+        const timeVal = UIState.currentResults.time || UIState.currentResults.totalTime;
+        if (timeVal) {
+            const parsedTime = timeStringToMinutes(timeVal);
+            if (parsedTime !== null) timeMins = parsedTime;
         }
-    } else if (mode === 'time') {
-        const d = parseFloat(document.getElementById('distanceTime')?.value);
-        const p = paceStringToSeconds(document.getElementById('paceTime')?.value);
-        if (!isNaN(d) && d > 0 && p > 0) {
-            distKm = d;
-            paceSecs = p;
-            timeMins = (d * p) / 60;
+
+        if (UIState.currentResults.pace) {
+            const parsedPace = paceStringToSeconds(UIState.currentResults.pace);
+            if (parsedPace !== null) paceSecs = parsedPace;
         }
-    } else if (mode === 'distance') {
-        const t = timeStringToMinutes(document.getElementById('timeDistance')?.value);
-        const p = paceStringToSeconds(document.getElementById('paceDistance')?.value);
-        if (t > 0 && p > 0) {
-            timeMins = t;
-            paceSecs = p;
-            distKm = (t * 60) / p;
+    } else {
+        // Read values from text inputs based on active mode
+        if (mode === 'pace') {
+            const d = parseFloat(document.getElementById('distancePace')?.value);
+            const t = timeStringToMinutes(document.getElementById('timePace')?.value);
+            if (!isNaN(d) && d > 0 && t > 0) {
+                distKm = d;
+                timeMins = t;
+                paceSecs = (t * 60) / d;
+            }
+        } else if (mode === 'time') {
+            const d = parseFloat(document.getElementById('distanceTime')?.value);
+            const p = paceStringToSeconds(document.getElementById('paceTime')?.value);
+            if (!isNaN(d) && d > 0 && p > 0) {
+                distKm = d;
+                paceSecs = p;
+                timeMins = (d * p) / 60;
+            }
+        } else if (mode === 'distance') {
+            const t = timeStringToMinutes(document.getElementById('timeDistance')?.value);
+            const p = paceStringToSeconds(document.getElementById('paceDistance')?.value);
+            if (t > 0 && p > 0) {
+                timeMins = t;
+                paceSecs = p;
+                distKm = (t * 60) / p;
+            }
+        } else if (mode === 'smart') {
+            const smartVal = document.getElementById('smartInput')?.value.trim();
+            if (smartVal) {
+                const parsed = parseSmartInput(smartVal);
+                // We extract whatever we have, even if incomplete
+                if (parsed.distance) distKm = parsed.distance;
+                
+                if (parsed.time) {
+                    const parsedTime = timeStringToMinutes(parsed.time);
+                    if (parsedTime !== null) timeMins = parsedTime;
+                }
+                
+                if (parsed.pace) {
+                    const parsedPace = paceStringToSeconds(parsed.pace);
+                    if (parsedPace !== null) paceSecs = parsedPace;
+                }
+
+                // If two are known, compute the third for the sliders
+                if (distKm && timeMins && !parsed.pace && parsed.unknownField === 'pace') {
+                    paceSecs = (timeMins * 60) / distKm;
+                } else if (distKm && paceSecs && !parsed.time && parsed.unknownField === 'time') {
+                    timeMins = (distKm * paceSecs) / 60;
+                } else if (timeMins && paceSecs && !parsed.distance && parsed.unknownField === 'distance') {
+                    distKm = (timeMins * 60) / paceSecs;
+                }
+            }
         }
     }
 
@@ -227,6 +268,22 @@ export function syncSlidersToFront() {
 
     document.getElementById('timeDistance').value  = timeStr;
     document.getElementById('paceDistance').value  = paceStr;
+
+    // Also update the Smart Input if we are in Smart mode
+    const smartInput = document.getElementById('smartInput');
+    if (smartInput && UIState.currentResults) {
+        // We need to know which field was the unknown one to preserve the '?'
+        // UIState.currentResults.mode for 'smart' entries holds the target metric
+        let d = distKm.toFixed(2);
+        let t = timeStr;
+        let p = paceStr;
+
+        if (UIState.currentResults.mode === 'distance') d = '?';
+        else if (UIState.currentResults.mode === 'time') t = '?';
+        else if (UIState.currentResults.mode === 'pace') p = '?';
+
+        smartInput.value = `${d}, ${t}, ${p}`;
+    }
 }
 
 // ──────────────────────────────────────────────────────────
@@ -463,7 +520,7 @@ export function updateFlipButtonVisibility(mode) {
     const btn = btnFlipBack();
     if (!btn) return;
 
-    const SLIDER_MODES = ['pace', 'time', 'distance'];
+    const SLIDER_MODES = ['pace', 'time', 'distance', 'smart'];
     if (SLIDER_MODES.includes(mode) && UIState.isCalculated) {
         btn.classList.add('show');
         btn.classList.remove('hidden');
