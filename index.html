@@ -76,7 +76,8 @@
 
                     <div class="sidebar-body">
                         <div class="form-grid">
-                            <p class="input-hint" id="hintSmart">Enter two known values and a question mark (?) for the unknown, separated by commas.</p>
+                            <p class="input-hint" id="hintSmart">Enter two known values and a question mark (?) for the
+                                unknown, separated by commas. E.g.:</p>
                             <p class="input-hint hidden" id="hintZone">Enter your recent 10K time recorded at a
                                 steady, maximal effort (e.g., 00:44:30).</p>
                             <p class="input-hint hidden" id="hintPace">Enter the distance and total time to calculate
@@ -90,14 +91,32 @@
 
                             <!-- Smart Inputs -->
                             <div class="calculator-body" id="smartInputs">
+
+                                <!-- Smart Input Examples -->
+                                <div class="smart-examples">
+                                    <div class="smart-example-item">
+                                        <code class="smart-example-code">42.195, 03:30:00, ?</code> to calculate
+                                        <strong>Pace</strong>
+                                    </div>
+                                    <div class="smart-example-item">
+                                        <code class="smart-example-code">10, ?, 4:30</code> to calculate
+                                        <strong>Time</strong>
+                                    </div>
+                                    <div class="smart-example-item">
+                                        <code class="smart-example-code">?, 01:00:00, 5:00</code> to calculate
+                                        <strong>Distance</strong>
+                                    </div>
+                                </div>
+
                                 <div class="input-group">
                                     <label class="label" for="smartInput">Distance, Time, Pace</label>
                                     <input type="text" id="smartInput" name="smartInput" class="input-field smart-input"
                                         placeholder="10.88, ?, 4:30" autocomplete="off" autocorrect="off">
-                                    <span id="smartInlineHint" class="smart-inline-hint">Hint: Distance (00.00) or ? then "," to proceed</span>
+                                    <span id="smartInlineHint" class="smart-inline-hint">Hint: Distance (00.00) or ?
+                                        then "," to proceed</span>
                                 </div>
                             </div>
-                            
+
                             <!-- Zone Inputs -->
                             <div class="calculator-body hidden" id="zoneInputs">
                                 <div class="input-group">
@@ -246,7 +265,8 @@
 
                         <div class="error-container">
                             <div class="error-text" id="errorZone">Invalid format. Use MM:SS or HH:MM:SS</div>
-                            <div class="error-text" id="errorSmart">Invalid pattern. Expected format: Distance, Time, Pace</div>
+                            <div class="error-text" id="errorSmart">Invalid pattern. Expected format: Distance, Time,
+                                Pace</div>
                             <div class="error-text" id="errorPace">Invalid input. Check distance and time format</div>
                             <div class="error-text" id="errorTime">Invalid input. Check distance and pace format</div>
                             <div class="error-text" id="errorDistance">Invalid input. Check time and pace format</div>

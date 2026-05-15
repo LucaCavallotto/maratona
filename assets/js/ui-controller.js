@@ -458,6 +458,12 @@ export function resetUI(skipLayoutReset = false) {
 }
 
 export function switchCalcMode(mode, skipLayoutReset = false) {
+    // Set data-mode attribute for CSS mode-specific styling (like height optimization)
+    const sidebar = document.getElementById('mainSidebar');
+    if (sidebar) {
+        sidebar.setAttribute('data-mode', mode);
+    }
+
     // Toggle Calculator Bodies
     document.getElementById('zoneInputs').classList.add('hidden');
     document.getElementById('smartInputs').classList.add('hidden');

@@ -122,6 +122,11 @@
     margin-bottom: 24px;
 }
 
+#smartInputs .input-group:last-child {
+    margin-bottom: 0;
+}
+
+
 .hidden {
     display: none !important;
 }
@@ -619,4 +624,38 @@
     pointer-events: none;
     transition: opacity 0.2s ease;
     font-family: var(--font-sans);
+}
+
+/* ============================================================
+   Quick DTP – Static Examples
+   ============================================================ */
+
+.smart-examples {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.smart-example-item {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.smart-example-code {
+    font-family: var(--font-mono);
+    background-color: var(--input-bg);
+    border: 1px solid var(--card-border);
+    padding: 3px 8px;
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 12px;
+    font-weight: 500;
+    margin-right: 4px;
+}
+
+.smart-example-item strong {
+    color: var(--text-header);
+    font-weight: 600;
 }

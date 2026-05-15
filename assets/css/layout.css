@@ -89,8 +89,14 @@
         width: 100%;
         /* Height is determined by tallest face so card doesn't collapse */
         min-height: 580px;
-        transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1), min-height 0.4s ease;
         transform-style: preserve-3d;
+    }
+
+    /* Compact modes: Training Zones and Converter don't flip and have less content */
+    .sidebar[data-mode="zone"] .sidebar-flipper,
+    .sidebar[data-mode="converter"] .sidebar-flipper {
+        min-height: auto;
     }
 
     .sidebar-flipper.flipped {
@@ -116,8 +122,15 @@
         box-shadow: none;
         position: relative;
         min-height: 600px;
+        transition: min-height 0.4s ease;
         /* Ensure enough height for spacing */
     }
+
+    .sidebar[data-mode="zone"] .sidebar-front,
+    .sidebar[data-mode="converter"] .sidebar-front {
+        min-height: auto;
+    }
+
 
     /* Front panel is the positioning context for btn-flip */
     .sidebar-front {

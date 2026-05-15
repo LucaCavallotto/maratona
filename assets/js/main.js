@@ -480,9 +480,10 @@ function handleCopy(e) {
 // ----------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
     initCustomDropdowns();
-    updateDistanceInput(document.getElementById('calcMode').value);
+    const initialMode = document.getElementById('calcMode').value;
+    switchCalcMode(initialMode);
     initSliders();
-    updateFlipButtonVisibility(document.getElementById('calcMode').value);
+    updateFlipButtonVisibility(initialMode);
 
     // Event Attachment Architecture
     document.querySelectorAll('.calculateBtn').forEach(btn => btn.addEventListener('click', handleCalculate));
@@ -551,6 +552,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initialize hint immediately
         updateSmartHint();
     }
+
 
     // Dropdown Form Triggers
     document.getElementById('calcMode').addEventListener('change', async function () {
