@@ -87,16 +87,9 @@
     .sidebar-flipper {
         position: relative;
         width: 100%;
-        /* Height is determined by tallest face so card doesn't collapse */
-        min-height: 580px;
-        transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1), min-height 0.4s ease;
+        min-height: 560px;
+        transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
         transform-style: preserve-3d;
-    }
-
-    /* Compact modes: Training Zones and Converter don't flip and have less content */
-    .sidebar[data-mode="zone"] .sidebar-flipper,
-    .sidebar[data-mode="converter"] .sidebar-flipper {
-        min-height: auto;
     }
 
     .sidebar-flipper.flipped {
@@ -121,14 +114,7 @@
         border-radius: 16px;
         box-shadow: none;
         position: relative;
-        min-height: 600px;
-        transition: min-height 0.4s ease;
-        /* Ensure enough height for spacing */
-    }
-
-    .sidebar[data-mode="zone"] .sidebar-front,
-    .sidebar[data-mode="converter"] .sidebar-front {
-        min-height: auto;
+        min-height: 560px;
     }
 
 
@@ -212,10 +198,10 @@
     /* Ensure calculator bodies have enough height to prevent flipper collapse 
        when switching to the back face (which has 3 sliders) */
     .calculator-body {
-        min-height: 220px;
+        min-height: 120px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     .calculator-body .input-group:last-child {
@@ -223,6 +209,35 @@
     }
 
     /* Inputs will naturally stack using flex-direction: column from the base styles */
+
+    /* ── Mode-specific sidebar heights ────────────────────────────────────────
+       Training Zones & Converter have far fewer inputs than the shared
+       Pace/Time/Distance/Smart group, so we let the card shrink to a
+       more compact size rather than leaving a sea of dead whitespace.
+    ─────────────────────────────────────────────────────────────────────── */
+    #mainSidebar[data-mode="zone"] .sidebar-flipper,
+    #mainSidebar[data-mode="converter"] .sidebar-flipper {
+        min-height: 0;
+    }
+
+    #mainSidebar[data-mode="zone"] .sidebar-front,
+    #mainSidebar[data-mode="zone"] .sidebar-back,
+    #mainSidebar[data-mode="converter"] .sidebar-front,
+    #mainSidebar[data-mode="converter"] .sidebar-back {
+        min-height: 0;
+        height: auto;
+        position: relative;
+    }
+
+    /* Back face of zone/converter: position:absolute makes it invisible when
+       not flipped; keep it absolute but override height for proper rendering */
+    #mainSidebar[data-mode="zone"] .sidebar-back,
+    #mainSidebar[data-mode="converter"] .sidebar-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+    }
 }
 
 .header {
@@ -241,12 +256,12 @@
 }
 
 .sidebar-body {
-    padding: 25px;
-    padding-bottom: 60px;
-    padding-top: 10px;
+    padding: 20px 25px 25px;
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
 }
 
 .header-title {
@@ -349,6 +364,14 @@
         background: transparent;
     }
 }
+/* Tighten layout and remove unused vertical whitespace for compact modes */
+#mainSidebar[data-mode="zone"] .sidebar-body,
+#mainSidebar[data-mode="converter"] .sidebar-body {
+    justify-content: flex-start;
+    gap: 24px;
+}
 
-
-@media (min-width: 992px) {}
+#mainSidebar[data-mode="zone"] .calculator-body,
+#mainSidebar[data-mode="converter"] .calculator-body {
+    min-height: 0;
+}

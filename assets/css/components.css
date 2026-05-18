@@ -14,7 +14,7 @@
     font-size: 0.85rem;
     color: var(--text-secondary);
     line-height: 1.4;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     margin-bottom: 12px;
     opacity: 0.9;
 }
@@ -22,8 +22,6 @@
 .form-grid {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    flex: 1;
 }
 
 .error-text {
@@ -32,15 +30,13 @@
     display: none;
     color: var(--error-color);
     text-align: center;
+    margin-top: 16px;
 }
 
 .error-container {
-    position: absolute;
-    bottom: 24px;
-    left: 25px;
-    right: 25px;
     z-index: 10;
     pointer-events: none;
+    text-align: center;
 }
 
 .success-text {
@@ -49,12 +45,15 @@
     color: var(--success-color);
     display: none;
     text-align: center;
-    position: absolute;
-    bottom: 24px;
-    left: 25px;
-    right: 25px;
     z-index: 10;
     pointer-events: none;
+    margin-top: 16px;
+}
+
+.sidebar-alerts-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 /* Inputs & Form Elements */
@@ -119,7 +118,11 @@
 }
 
 .input-group {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+}
+
+.input-group:last-child {
+    margin-bottom: 0;
 }
 
 #smartInputs .input-group:last-child {
@@ -156,7 +159,6 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    margin-top: auto;
 }
 
 .button-group .btn-primary {
@@ -470,10 +472,9 @@
    ============================================================ */
 
 .slider-form {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    gap: 20px;
 }
 
 .slider-group {
@@ -481,7 +482,7 @@
 }
 
 .sidebar-back .slider-group {
-    margin-bottom: 20px;
+    margin-bottom: 0;
 }
 
 .slider-label-row {

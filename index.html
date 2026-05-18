@@ -262,18 +262,6 @@
                             <button class="btn btn-secondary resetBtn" id="resetBtn" disabled>Reset</button>
                             <button class="btn btn-secondary copyBtn" id="copyBtn" disabled>Copy</button>
                         </div>
-
-                        <div class="error-container">
-                            <div class="error-text" id="errorZone">Invalid format. Use MM:SS or HH:MM:SS</div>
-                            <div class="error-text" id="errorSmart">Invalid pattern. Expected format: Distance, Time,
-                                Pace</div>
-                            <div class="error-text" id="errorPace">Invalid input. Check distance and time format</div>
-                            <div class="error-text" id="errorTime">Invalid input. Check distance and pace format</div>
-                            <div class="error-text" id="errorDistance">Invalid input. Check time and pace format</div>
-                            <div class="error-text" id="errorConverter">Invalid input format</div>
-                        </div>
-
-                        <div class="success-text success-msg" style="display: none;">Copied results to clipboard</div>
                     </div><!-- END .sidebar-body -->
                 </div><!-- END .sidebar-front -->
 
@@ -350,22 +338,28 @@
                             <button class="btn btn-secondary resetBtn" id="resetBtnBack" disabled>Reset</button>
                             <button class="btn btn-secondary copyBtn" id="copyBtnBack" disabled>Copy</button>
                         </div>
-
-                        <!-- Errors shared on back face as well -->
-                        <div class="error-container">
-                            <div class="error-text" id="errorPaceBack">Invalid input. Check distance and time format
-                            </div>
-                            <div class="error-text" id="errorTimeBack">Invalid input. Check distance and pace format
-                            </div>
-                            <div class="error-text" id="errorDistanceBack">Invalid input. Check time and pace format
-                            </div>
-                        </div>
-
-                        <div class="success-text success-msg" style="display: none;">Copied results to clipboard</div>
                     </div><!-- END .sidebar-body -->
                 </div><!-- END .sidebar-back -->
 
             </div><!-- END .sidebar-flipper -->
+
+            <!-- Sidebar Alerts (moved outside of the card faces for premium desktop layout) -->
+            <div class="sidebar-alerts-container">
+                <div class="error-container">
+                    <div class="error-text" id="errorZone">Invalid format. Use MM:SS or HH:MM:SS</div>
+                    <div class="error-text" id="errorSmart">Invalid pattern. Expected format: Distance, Time, Pace</div>
+                    <div class="error-text" id="errorPace">Invalid input. Check distance and time format</div>
+                    <div class="error-text" id="errorTime">Invalid input. Check distance and pace format</div>
+                    <div class="error-text" id="errorDistance">Invalid input. Check time and pace format</div>
+                    <div class="error-text" id="errorConverter">Invalid input format</div>
+
+                    <!-- Slider back face errors -->
+                    <div class="error-text" id="errorPaceBack">Invalid input. Check distance and time format</div>
+                    <div class="error-text" id="errorTimeBack">Invalid input. Check distance and pace format</div>
+                    <div class="error-text" id="errorDistanceBack">Invalid input. Check time and pace format</div>
+                </div>
+                <div class="success-text success-msg" style="display: none;">Copied results to clipboard</div>
+            </div>
         </aside>
 
         <main class="main-content">

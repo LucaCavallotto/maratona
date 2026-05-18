@@ -29,10 +29,13 @@ import { initSliders, updateFlipButtonVisibility, flipToFront, flipToBack, isFli
 // Validation Decoupler
 function validateInputsForMode(mode) {
     const showError = (id) => {
-        const el = document.getElementById(id);
-        if (el) el.style.display = 'block';
-        const elBack = document.getElementById(id + 'Back');
-        if (elBack) elBack.style.display = 'block';
+        if (isFlipped()) {
+            const elBack = document.getElementById(id + 'Back');
+            if (elBack) elBack.style.display = 'block';
+        } else {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'block';
+        }
     };
 
     if (mode === 'zone') {
