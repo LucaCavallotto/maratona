@@ -519,34 +519,41 @@ document.addEventListener('DOMContentLoaded', () => {
             if (val.trim() === '') {
                 updateHint('Hint: Distance (00.00) or ? then "," to proceed');
             } else {
-                const parts = val.split(',').map(p => p.trim());
+                const parsed = parseSmartInput(val);
                 const commas = (val.match(/,/g) || []).length;
                 const qMarks = (val.match(/\?/g) || []).length;
 
-                if (commas === 0) {
-                    updateHint('Hint: Distance (00.00) or ? then "," to proceed');
-                } else if (commas === 1) {
-                    updateHint('Hint: Time (HH:MM:SS) or ? then "," to proceed');
-                } else if (commas === 2) {
-                    if (qMarks === 0) {
-                        const pacePart = parts[2] || '';
-                        if (pacePart === '') {
-                            updateHint('Hint: ? to solve');
+                if (parsed.status === 'complete') {
+                    updateHint('Ready! Press Enter or Click Calculate', 'success');
+                } else if (parsed.status === 'invalid') {
+                    if (parsed.message) {
+                        updateHint('Error: ' + parsed.message, 'error');
+                    } else {
+                        updateHint('Error: Invalid format. Check inputs.', 'error');
+                    }
+                } else {
+                    // Status is 'incomplete'
+                    if (commas === 0) {
+                        updateHint('Hint: Distance (00.00) or ? then "," to proceed');
+                    } else if (commas === 1) {
+                        updateHint('Hint: Time (HH:MM:SS) or ? then "," to proceed');
+                    } else if (commas === 2) {
+                        if (qMarks === 0) {
+                            const parts = val.split(',').map(p => p.trim());
+                            const pacePart = parts[2] || '';
+                            if (pacePart === '') {
+                                updateHint('Hint: ? to solve');
+                            } else {
+                                updateHint('Error: Exactly one "?" is required', 'error');
+                            }
+                        } else if (qMarks === 1) {
+                            updateHint('Hint: Pace (MM:SS)');
                         } else {
                             updateHint('Error: Exactly one "?" is required', 'error');
                         }
-                    } else if (qMarks === 1) {
-                        const allFilled = parts.length === 3 && parts.every(p => p !== '');
-                        if (allFilled) {
-                            updateHint('Ready! Press Enter or Click Calculate', 'success');
-                        } else {
-                            updateHint('Hint: Pace (MM:SS)');
-                        }
                     } else {
-                        updateHint('Error: Exactly one "?" is required', 'error');
+                        updateHint('Error: Max 2 commas allowed', 'error');
                     }
-                } else {
-                    updateHint('Error: Max 2 commas allowed', 'error');
                 }
             }
         };

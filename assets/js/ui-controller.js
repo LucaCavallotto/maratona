@@ -401,7 +401,9 @@ export function resetUI(skipLayoutReset = false) {
     if (smartInput) smartInput.value = '';
     const smartInlineHint = document.getElementById('smartInlineHint');
     if (smartInlineHint) {
-        smartInlineHint.textContent = 'Hint: Distance';
+        smartInlineHint.textContent = 'Hint: Distance (00.00) or ? then "," to proceed';
+        smartInlineHint.style.color = 'var(--text-placeholder)';
+        smartInlineHint.style.opacity = '0.8';
     }
 
     // Reset hidden selects
