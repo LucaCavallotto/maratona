@@ -29,12 +29,19 @@ import { initSliders, updateFlipButtonVisibility, flipToFront, flipToBack, isFli
 // Validation Decoupler
 function validateInputsForMode(mode) {
     const showError = (id) => {
+        const triggerErrorAnim = (el) => {
+            if (!el) return;
+            el.style.display = 'none';
+            void el.offsetHeight; // Force DOM style reflow to re-trigger CSS keyframe animations
+            el.style.display = 'block';
+        };
+
         if (isFlipped()) {
             const elBack = document.getElementById(id + 'Back');
-            if (elBack) elBack.style.display = 'block';
+            triggerErrorAnim(elBack);
         } else {
             const el = document.getElementById(id);
-            if (el) el.style.display = 'block';
+            triggerErrorAnim(el);
         }
     };
 
@@ -473,6 +480,8 @@ function handleCopy(e) {
 
     navigator.clipboard.writeText(text).then(() => {
         document.querySelectorAll('.success-msg').forEach(successMsg => {
+            successMsg.style.display = 'none';
+            void successMsg.offsetHeight; // Force reflow to re-trigger CSS animations on repeated copy clicks
             successMsg.style.display = 'block';
             setTimeout(() => {
                 successMsg.style.display = 'none';

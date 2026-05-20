@@ -24,13 +24,47 @@
     flex-direction: column;
 }
 
-.error-text {
+.error-text,
+.success-text {
+    position: absolute;
+    top: 16px;
+    left: 0;
+    right: 0;
     font-size: 13px;
     font-weight: 500;
     display: none;
-    color: var(--error-color);
     text-align: center;
-    margin-top: 16px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.error-text {
+    color: var(--error-color);
+}
+
+.success-text {
+    color: var(--success-color);
+}
+
+.error-text[style*="display: block"],
+.success-text[style*="display: block"] {
+    display: block !important;
+    animation: simpleFadeInOut 2.5s ease-in-out forwards;
+}
+
+@keyframes simpleFadeInOut {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 .error-container {
@@ -39,21 +73,11 @@
     text-align: center;
 }
 
-.success-text {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--success-color);
-    display: none;
-    text-align: center;
-    z-index: 10;
-    pointer-events: none;
-    margin-top: 16px;
-}
-
 .sidebar-alerts-container {
     display: flex;
     flex-direction: column;
     width: 100%;
+    position: relative;
 }
 
 /* Inputs & Form Elements */
