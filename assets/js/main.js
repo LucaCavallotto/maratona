@@ -354,6 +354,11 @@ async function handleReset(e) {
     if (e) e.preventDefault();
     if (isAnimatingReset) return;
 
+    // Clear fields, sliders, and adjust flip card immediately for instant visual feedback
+    resetUI(true);
+    resetSliders();
+    updateFlipButtonVisibility(document.getElementById('calcMode').value);
+
     isAnimatingReset = true;
 
     document.querySelectorAll('.copyBtn').forEach(btn => btn.disabled = true);
