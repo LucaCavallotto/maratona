@@ -90,10 +90,12 @@ export function formatTimeComponent(timeStr) {
 export function parseSmartInput(inputString) {
     if (!inputString || typeof inputString !== 'string') return { status: 'incomplete' };
     
-    // Normalize input
-    const normalized = inputString.replace(/;/g, ',').replace(/[^\d:,.\s?]/g, '');
+    // Check for invalid characters (allow only digits, commas, colons, dots, question marks, and spaces)
+    if (/[^\d:,.\s?]/.test(inputString)) {
+        return { status: 'invalid', message: 'Invalid characters' };
+    }
     
-    const parts = normalized.split(',').map(p => p.trim());
+    const parts = inputString.split(',').map(p => p.trim());
     if (parts.length === 0) return { status: 'incomplete' };
 
     // Identify what we have based on indices
