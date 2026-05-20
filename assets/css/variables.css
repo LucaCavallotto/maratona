@@ -6,6 +6,11 @@
 :root {
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --font-mono: 'Roboto Mono', monospace;
+
+    /* Animations & Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    --transition-fast: all 0.15s ease;
 }
 
 
@@ -29,35 +34,49 @@
     --input-bg: #F8FAFC;
     --input-border: #E2E8F0;
     --input-focus-bg: #FFFFFF;
-    --input-focus-border: #3B82F6;
-    --input-focus-shadow: rgba(59, 130, 246, 0.12);
+    --input-focus-border: #D9383A;
+    --input-focus-shadow: none;
 
     --btn-primary-bg: #D9383A;
     --btn-primary-text: #FFFFFF;
     --btn-primary-hover: #BF2F31;
+    --btn-primary-glow: none;
 
     --btn-secondary-bg: #FFFFFF;
     --btn-secondary-text: #0F172A;
     --btn-secondary-border: #E2E8F0;
     --btn-secondary-hover-bg: #F1F5F9;
-    --btn-secondary-hover-border: #3B82F6;
+    --btn-secondary-hover-border: #D9383A;
 
     --card-bg: #FFFFFF;
     --card-border: #E2E8F0;
+    --card-glow: none;
 
-    --zone-pace-color: #1E293B;
+    --zone-pace-color: #0F172A;
 
     --error-color: #D9383A;
     --success-color: #16A34A;
 
-    --dropdown-bg: rgba(255, 255, 255, 0.97);
-    --dropdown-border: rgba(15, 23, 42, 0.06);
-    --dropdown-shadow: rgba(15, 23, 42, 0.1);
-    --dropdown-item-hover: #F1F5F9;
+    /* Glassmorphism & Dropdowns */
+    --dropdown-bg: rgba(255, 255, 255, 0.85);
+    --dropdown-border: rgba(15, 23, 42, 0.08);
+    --dropdown-shadow: none;
+    --dropdown-item-hover: rgba(241, 245, 249, 0.9);
     --dropdown-item-selected-bg: #F1F5F9;
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(226, 232, 240, 0.8);
 
-    --toggle-active-bg: #3B82F6;
+    --toggle-active-bg: #D9383A;
     --splits-bg: #F8FAFC;
+
+    /* High-Performance Training Zones Colors */
+    --zone-1-color: #0D9488; /* Z1 Recovery: Teal */
+    --zone-2-color: #2563EB; /* Z2 Slow Bottom: Blue */
+    --zone-3-color: #D97706; /* Z3 Medium XC: Warm Amber */
+    --zone-4-color: #EA580C; /* Z4 Threshold: Orange */
+    --zone-5-color: #DC2626; /* Z5 VO2 Max: Track Red */
+    --zone-6-color: #9333EA; /* Z6 Anaerobic: Intense Purple */
+    --zone-7-color: #C026D3; /* Z7 Sprint: Neon Magenta */
 }
 
 
@@ -76,95 +95,57 @@
         --text-input: #F8FAFC;
         --text-placeholder: #475569;
 
-        --divider-color: #334155;
+        --divider-color: #1E293B;
 
         /* Inputs sit slightly darker/different than the card (#1E293B) */
-        --input-bg: #161E2E;
-        --input-border: #334155;
+        --input-bg: #0B0F19;
+        --input-border: #1E293B;
         --input-focus-bg: #0F172A;
-        --input-focus-border: #60A5FA;
-        --input-focus-shadow: rgba(96, 165, 250, 0.15);
+        --input-focus-border: #EF4444;
+        --input-focus-shadow: none;
 
         --btn-primary-bg: #EF4444;
         --btn-primary-text: #FFFFFF;
         --btn-primary-hover: #DC2626;
+        --btn-primary-glow: none;
 
-        --btn-secondary-bg: transparent;
+        --btn-secondary-bg: rgba(15, 23, 42, 0.4);
         --btn-secondary-text: #F8FAFC;
-        --btn-secondary-border: #334155;
+        --btn-secondary-border: #1E293B;
         --btn-secondary-hover-bg: #1E293B;
-        --btn-secondary-hover-border: #60A5FA;
+        --btn-secondary-hover-border: #EF4444;
 
-        --card-bg: #1E293B;
-        --card-border: #334155;
+        --card-bg: #131B2E;
+        --card-border: #1E293B;
+        --card-glow: none;
 
         --zone-pace-color: #CBD5E1;
 
         --error-color: #EF4444;
         --success-color: #22C55E;
 
-        --dropdown-bg: rgba(30, 41, 59, 0.97);
-        --dropdown-border: rgba(248, 250, 252, 0.08);
-        --dropdown-shadow: rgba(0, 0, 0, 0.6);
-        --dropdown-item-hover: #334155;
-        --dropdown-item-selected-bg: #334155;
+        /* Glassmorphism & Dropdowns */
+        --dropdown-bg: rgba(19, 27, 46, 0.85);
+        --dropdown-border: rgba(255, 255, 255, 0.08);
+        --dropdown-shadow: none;
+        --dropdown-item-hover: rgba(30, 41, 59, 0.9);
+        --dropdown-item-selected-bg: #1E293B;
+        --glass-bg: rgba(19, 27, 46, 0.75);
+        --glass-border: rgba(255, 255, 255, 0.05);
 
-        --toggle-active-bg: #60A5FA;
+        --toggle-active-bg: #EF4444;
+        --splits-bg: #131B2E;
 
-        /* Splits table sits at the card level; rows are
-           separated by the visible --card-border divider */
-        --splits-bg: #1E293B;
+        /* High-Performance Training Zones Colors (Bright Dark Contrast) */
+        --zone-1-color: #2DD4BF;
+        --zone-2-color: #60A5FA;
+        --zone-3-color: #FBBF24;
+        --zone-4-color: #FB923C;
+        --zone-5-color: #F87171;
+        --zone-6-color: #C084FC;
+        --zone-7-color: #E879F9;
     }
 }
 
 
-/* ============================================================
-   Dark Mode — manual toggle
-   Usage: document.documentElement.dataset.colorMode = 'dark'
-   ============================================================ */
-[data-color-mode="dark"] {
-    --bg-body: #0F172A;
-    --bg-container: #0F172A;
 
-    --text-primary: #F8FAFC;
-    --text-header: #FFFFFF;
-    --text-secondary: #94A3B8;
-    --text-label: #CBD5E1;
-    --text-input: #F8FAFC;
-    --text-placeholder: #475569;
-
-    --divider-color: #334155;
-
-    --input-bg: #161E2E;
-    --input-border: #334155;
-    --input-focus-bg: #0F172A;
-    --input-focus-border: #60A5FA;
-    --input-focus-shadow: rgba(96, 165, 250, 0.15);
-
-    --btn-primary-bg: #EF4444;
-    --btn-primary-text: #FFFFFF;
-    --btn-primary-hover: #DC2626;
-
-    --btn-secondary-bg: transparent;
-    --btn-secondary-text: #F8FAFC;
-    --btn-secondary-border: #334155;
-    --btn-secondary-hover-bg: #1E293B;
-    --btn-secondary-hover-border: #60A5FA;
-
-    --card-bg: #1E293B;
-    --card-border: #334155;
-
-    --zone-pace-color: #CBD5E1;
-
-    --error-color: #EF4444;
-    --success-color: #22C55E;
-
-    --dropdown-bg: rgba(30, 41, 59, 0.97);
-    --dropdown-border: rgba(248, 250, 252, 0.08);
-    --dropdown-shadow: rgba(0, 0, 0, 0.6);
-    --dropdown-item-hover: #334155;
-    --dropdown-item-selected-bg: #334155;
-
-    --toggle-active-bg: #60A5FA;
-    --splits-bg: #1E293B;
-}

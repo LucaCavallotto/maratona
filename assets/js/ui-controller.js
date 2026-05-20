@@ -323,8 +323,8 @@ export function renderPaceTimeResults(container, metrics, splits, highlightLabel
                     <div class="split-col">Km</div>
                     <div class="split-col">Time</div>
                 </div>
-                ${splits.map(split => `
-                    <div class="split-row">
+                ${splits.map((split, index) => `
+                    <div class="split-row animate-card" style="animation-delay: ${(metrics.length + index) * 0.05}s;">
                         <div class="split-col">${split.km}</div>
                         <div class="split-col">${split.time}</div>
                     </div>
@@ -341,7 +341,7 @@ export function renderPaceTimeResults(container, metrics, splits, highlightLabel
         'Total Time': '<svg class="icon-svg" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>'
     };
 
-    const metricsHtml = metrics.map(metric => {
+    const metricsHtml = metrics.map((metric, index) => {
         const valueNum = typeof metric.value === 'object' ? metric.value.num : metric.value;
         const valueUnit = typeof metric.value === 'object' ? metric.value.unit : '';
         const icon = iconMap[metric.label] || '';
@@ -360,7 +360,7 @@ export function renderPaceTimeResults(container, metrics, splits, highlightLabel
         const highlightClass = isHighlighted ? ' is-highlighted' : '';
 
         return `
-            <div class="result-item${highlightClass}">
+            <div class="result-item${highlightClass} animate-card" style="animation-delay: ${index * 0.05}s;">
                 <div class="metric-label">
                     ${icon}
                     ${metric.label}

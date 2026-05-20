@@ -109,9 +109,9 @@
 .custom-dropdown-toggle:focus,
 .custom-dropdown-toggle.open {
     background-color: var(--input-focus-bg);
-
-    box-shadow: 0 0 0 3px var(--input-focus-shadow);
-    transform: translateY(-1px);
+    border-color: var(--input-focus-border);
+    box-shadow: none;
+    transform: none;
 }
 
 .input-field::placeholder {
@@ -212,9 +212,11 @@
     color: var(--btn-primary-text);
 }
 
-.btn-primary:hover {
-    background-color: var(--btn-primary-hover);
-    transform: translateY(-1px);
+@media (hover: hover) {
+    .btn-primary:hover {
+        background-color: var(--btn-primary-hover);
+        transform: translateY(-1.5px);
+    }
 }
 
 .btn-primary:active {
@@ -251,10 +253,12 @@
     border: 1px solid var(--btn-secondary-border);
 }
 
-.btn-secondary:hover {
-    background-color: var(--btn-secondary-hover-bg);
-    box-shadow: 0 0 0 3px var(--input-focus-shadow);
-    transform: translateY(-1px);
+@media (hover: hover) {
+    .btn-secondary:hover {
+        background-color: var(--btn-secondary-hover-bg);
+        border-color: var(--btn-secondary-hover-border);
+        transform: translateY(-1.5px);
+    }
 }
 
 .btn-secondary:active {
@@ -265,6 +269,39 @@
     background-color: var(--input-bg);
     color: var(--text-secondary);
     border-color: var(--card-border);
+}
+
+/* Keyboard Shortcut Badges */
+.keycap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.25);
+    color: currentColor;
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin-left: 6px;
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.2);
+    opacity: 0.85;
+    letter-spacing: 0;
+    animation: keycapBounce 2s infinite ease-in-out;
+}
+
+.btn-secondary .keycap {
+    background: rgba(15, 23, 42, 0.06);
+    color: var(--text-secondary);
+    border-bottom: 1.5px solid rgba(15, 23, 42, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+    .btn-secondary .keycap {
+        background: rgba(248, 250, 252, 0.08);
+        color: var(--text-secondary);
+        border-bottom: 1.5px solid rgba(255, 255, 255, 0.1);
+    }
 }
 
 /* Dropdowns */
@@ -282,8 +319,10 @@
     overflow: hidden;
 }
 
-.custom-dropdown-toggle:hover {
-    background-color: var(--input-bg);
+@media (hover: hover) {
+    .custom-dropdown-toggle:hover {
+        background-color: var(--input-bg);
+    }
 }
 
 .custom-dropdown-toggle::after {
@@ -313,14 +352,14 @@
     display: none;
     margin-top: 8px;
     transform-origin: top center;
-    animation: dropdownEnter 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    animation: dropdownEnter 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 
     background-color: var(--dropdown-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--card-border);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    padding: 4px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--dropdown-border);
+    box-shadow: none;
+    padding: 6px;
 }
 
 .custom-dropdown-menu.show {
@@ -341,10 +380,16 @@
     white-space: nowrap;
 }
 
-.custom-dropdown-item:hover,
 .custom-dropdown-item.is-highlighted {
     background-color: var(--dropdown-item-hover);
     color: var(--text-input);
+}
+
+@media (hover: hover) {
+    .custom-dropdown-item:hover {
+        background-color: var(--dropdown-item-hover);
+        color: var(--text-input);
+    }
 }
 
 .custom-dropdown-item.selected {
@@ -451,11 +496,13 @@
     justify-content: center;
     background-color: var(--card-bg);
     color: var(--text-primary);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition-bounce);
     padding: 0;
     box-shadow: none;
     border: 1px solid var(--card-border);
 }
+
+
 
 #btnFlipToBack {
     opacity: 0;
@@ -481,10 +528,12 @@
     justify-content: center;
 }
 
-.btn-flip:hover {
-    background-color: var(--btn-primary-bg);
-    color: var(--btn-primary-text);
-    transform: rotate(180deg) scale(1.1);
+@media (hover: hover) {
+    .btn-flip:hover {
+        background-color: var(--btn-primary-bg);
+        color: var(--btn-primary-text);
+        transform: rotate(180deg) scale(1.1);
+    }
 }
 
 .btn-flip:active {
@@ -578,9 +627,11 @@
     transition: transform 0.15s ease;
 }
 
-.form-range::-webkit-slider-thumb:hover {
-    transform: scale(1.15);
-    box-shadow: none;
+@media (hover: hover) {
+    .form-range::-webkit-slider-thumb:hover {
+        transform: scale(1.15);
+        box-shadow: none;
+    }
 }
 
 .form-range::-webkit-slider-thumb:active {
@@ -599,8 +650,10 @@
     transition: transform 0.15s ease;
 }
 
-.form-range::-moz-range-thumb:hover {
-    transform: scale(1.15);
+@media (hover: hover) {
+    .form-range::-moz-range-thumb:hover {
+        transform: scale(1.15);
+    }
 }
 
 /* Firefox track fill */
@@ -659,25 +712,54 @@
     margin-bottom: 24px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
 .smart-example-item {
     font-size: 13px;
     color: var(--text-secondary);
     line-height: 1.5;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
-.smart-example-code {
+.smart-example-button {
     font-family: var(--font-mono);
     background-color: var(--input-bg);
-    border: 1px solid var(--card-border);
-    padding: 3px 8px;
-    border-radius: 6px;
+    border: 1px solid var(--input-border);
+    padding: 4px 10px;
+    border-radius: 8px;
     color: var(--text-primary);
     font-size: 12px;
     font-weight: 500;
-    margin-right: 4px;
+    cursor: pointer;
+    transition: var(--transition-bounce);
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: none;
+}
+
+@media (hover: hover) {
+    .smart-example-button:hover {
+        background-color: var(--btn-primary-bg);
+        color: var(--btn-primary-text);
+        border-color: var(--btn-primary-bg);
+        transform: translateY(-2px);
+    }
+}
+
+.smart-example-button:active {
+    transform: translateY(0);
+}
+
+/* Hide shortcut keycaps on mobile/touch viewports */
+@media (max-width: 991px) {
+    .keycap {
+        display: none !important;
+    }
 }
 
 .smart-example-item strong {

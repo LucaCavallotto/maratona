@@ -5,15 +5,63 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background-color: --bg-body;
-    /* Fallback */
+    font-family: var(--font-sans);
     background-color: var(--bg-body);
     color: var(--text-primary);
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.4s ease, color 0.4s ease;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* ============================================================
+   Custom Scrollbar Aesthetics (WebKit & Firefox)
+   ============================================================ */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--divider-color);
+    border-radius: 10px;
+    transition: var(--transition-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--btn-primary-bg);
+}
+
+/* Firefox scrollbar compatibility */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--divider-color) transparent;
+}
+
+/* ============================================================
+   Global Dynamic Keyframes
+   ============================================================ */
+@keyframes premiumFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.99);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes keycapBounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.92);
+    }
+}
 

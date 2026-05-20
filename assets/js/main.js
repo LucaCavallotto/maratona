@@ -154,8 +154,8 @@ async function handleCalculate(e) {
         document.getElementById('refTime').innerHTML = `<span class="metric-num">${timeInput}</span>`;
         document.getElementById('refPace').innerHTML = `<span class="metric-num">${secondsToPace(thresholdPace)}</span><span class="metric-unit">/km</span> <span class="metric-sub-value" style="font-size: 13px; margin-top: 2px;"><span class="metric-num">${secondsToPace(thresholdPace * 1.60934)}</span><span class="metric-unit">/mi</span></span>`;
 
-        document.getElementById('zones').innerHTML = zones.map(zone => `
-            <div class="zone-card">
+        document.getElementById('zones').innerHTML = zones.map((zone, index) => `
+            <div class="zone-card animate-card" style="--zone-color: var(--zone-${index + 1}-color); animation-delay: ${(2 + index) * 0.05}s;">
                 <div class="zone-header">
                     <div>
                         <div class="zone-name">${zone.name}</div>
@@ -169,9 +169,9 @@ async function handleCalculate(e) {
             </div>
         `).join('');
 
-        document.getElementById('races').innerHTML = races.map(racePrediction => {
+        document.getElementById('races').innerHTML = races.map((racePrediction, index) => {
             return `
-                <div class="zone-card race-card">
+                <div class="zone-card race-card animate-card" style="animation-delay: ${(2 + zones.length + index) * 0.05}s;">
                     <div>
                         <div class="race-name">${racePrediction.name}</div>
                         <div class="race-time"><span class="metric-num">${secondsToTime(racePrediction.totalSeconds)}</span></div>
@@ -288,20 +288,20 @@ async function handleCalculate(e) {
                     <div class="results-section">
                         <div class="section-title">Result</div>
                         <div class="result-card">
-                            <div class="result-item">
+                            <div class="result-item animate-card" style="animation-delay: 0s;">
                                 <div class="metric-label">
                                     <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H3V8h2v4h2V8h2v4h2V8h2v4h2V8h2v4h2V8h2v8z"/></svg>
                                     Input (${unit === 'km' ? 'Km' : 'Miles'})
                                 </div>
                                 <div class="metric-value"><span class="metric-num">${numericValue}</span></div>
                             </div>
-                        <div class="result-item">
-                            <div class="metric-label">
-                                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H3V8h2v4h2V8h2v4h2V8h2v4h2V8h2v4h2V8h2v8z"/></svg>
-                                Converted (${unit === 'km' ? 'Miles' : 'Km'})
+                            <div class="result-item animate-card" style="animation-delay: 0.05s;">
+                                <div class="metric-label">
+                                     <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 10H3V8h2v4h2V8h2v4h2V8h2v4h2V8h2v4h2V8h2v8z"/></svg>
+                                    Converted (${unit === 'km' ? 'Miles' : 'Km'})
+                                </div>
+                                <div class="metric-value"><span class="metric-num">${unit === 'km' ? payload.miles : payload.kilometers}</span></div>
                             </div>
-                            <div class="metric-value"><span class="metric-num">${unit === 'km' ? payload.miles : payload.kilometers}</span></div>
-                        </div>
                         </div>
                     </div>
                 </div>
@@ -316,20 +316,20 @@ async function handleCalculate(e) {
                     <div class="results-section">
                         <div class="section-title">Result</div>
                         <div class="result-card">
-                            <div class="result-item">
+                            <div class="result-item animate-card" style="animation-delay: 0s;">
                                 <div class="metric-label">
                                     <svg class="icon-svg" viewBox="0 0 24 24"><path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0012 4c-4.97 0-9 4.03-9 9s4.02 9 9 9a8.994 8.994 0 007.03-14.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
                                     Input Pace (/${unit === 'km' ? 'km' : 'mi'})
                                 </div>
                                 <div class="metric-value"><span class="metric-num">${inputString}</span></div>
                             </div>
-                        <div class="result-item">
-                            <div class="metric-label">
-                                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0012 4c-4.97 0-9 4.03-9 9s4.02 9 9 9a8.994 8.994 0 007.03-14.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
-                                Converted Pace (/${unit === 'km' ? 'mi' : 'km'})
+                            <div class="result-item animate-card" style="animation-delay: 0.05s;">
+                                <div class="metric-label">
+                                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0012 4c-4.97 0-9 4.03-9 9s4.02 9 9 9a8.994 8.994 0 007.03-14.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+                                    Converted Pace (/${unit === 'km' ? 'mi' : 'km'})
+                                </div>
+                                <div class="metric-value"><span class="metric-num">${payload.resultPace}</span></div>
                             </div>
-                            <div class="metric-value"><span class="metric-num">${payload.resultPace}</span></div>
-                        </div>
                         </div>
                     </div>
                 </div>
@@ -492,6 +492,8 @@ function handleCopy(e) {
     });
 }
 
+
+
 // ----------------------------------------------------------------------------
 // Core Interactions Bootstrapper
 // ----------------------------------------------------------------------------
@@ -510,6 +512,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Smart Input Dynamic Listener
     const smartInput = document.getElementById('smartInput');
     if (smartInput) {
+        // Smart Badge click listeners
+        document.querySelectorAll('.smart-example-button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                smartInput.value = btn.dataset.input;
+                smartInput.dispatchEvent(new Event('input'));
+                smartInput.focus();
+            });
+        });
+
         const updateSmartHint = function() {
             const val = smartInput.value;
             const smartInlineHint = document.getElementById('smartInlineHint');
@@ -531,7 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             
             if (val.trim() === '') {
-                updateHint('Hint: Distance (00.00) or ? then "," to proceed');
+                updateHint('Hint: Distance (00.00) or "?" then "," to proceed');
             } else {
                 const parsed = parseSmartInput(val);
                 const commas = (val.match(/,/g) || []).length;
@@ -548,7 +560,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     // Status is 'incomplete'
                     if (commas === 0) {
-                        updateHint('Hint: Distance (00.00) or ? then "," to proceed');
+                        updateHint('Hint: Distance (00.00) or "?" then "," to proceed');
                     } else if (commas === 1) {
                         updateHint('Hint: Time (HH:MM:SS) or ? then "," to proceed');
                     } else if (commas === 2) {

@@ -27,6 +27,8 @@
                 <!-- ═══════════════════════════════════ FRONT SIDE -->
                 <div class="sidebar-front">
 
+
+
                     <!-- Flip trigger: only shown for pace/time/distance modes -->
                     <button class="btn-flip" id="btnFlipToBack" aria-label="Switch to interactive sliders"
                         title="Interactive Sliders">
@@ -95,16 +97,16 @@
                                 <!-- Smart Input Examples -->
                                 <div class="smart-examples">
                                     <div class="smart-example-item">
-                                        <code class="smart-example-code">42.195, 03:30:00, ?</code> to calculate
-                                        <strong>Pace</strong>
+                                        <button type="button" class="smart-example-button" data-input="42.195, 03:30:00, ?">42.195, 03:30:00, ?</button>
+                                        <span>to calculate <strong>Pace</strong></span>
                                     </div>
                                     <div class="smart-example-item">
-                                        <code class="smart-example-code">10, ?, 4:30</code> to calculate
-                                        <strong>Time</strong>
+                                        <button type="button" class="smart-example-button" data-input="10, ?, 4:30">10, ?, 4:30</button>
+                                        <span>to calculate <strong>Time</strong></span>
                                     </div>
                                     <div class="smart-example-item">
-                                        <code class="smart-example-code">?, 01:00:00, 5:00</code> to calculate
-                                        <strong>Distance</strong>
+                                        <button type="button" class="smart-example-button" data-input="?, 01:00:00, 5:00">?, 01:00:00, 5:00</button>
+                                        <span>to calculate <strong>Distance</strong></span>
                                     </div>
                                 </div>
 
@@ -258,15 +260,17 @@
                         </div><!-- END .form-grid -->
 
                         <div class="button-group">
-                            <button class="btn btn-primary calculateBtn" id="calculateBtn" disabled>Calculate</button>
-                            <button class="btn btn-secondary resetBtn" id="resetBtn" disabled>Reset</button>
-                            <button class="btn btn-secondary copyBtn" id="copyBtn" disabled>Copy</button>
+                            <button class="btn btn-primary calculateBtn" id="calculateBtn" disabled>Calculate<span class="keycap">↵</span></button>
+                            <button class="btn btn-secondary resetBtn" id="resetBtn" disabled>Reset<span class="keycap">R</span></button>
+                            <button class="btn btn-secondary copyBtn" id="copyBtn" disabled>Copy<span class="keycap">C</span></button>
                         </div>
                     </div><!-- END .sidebar-body -->
                 </div><!-- END .sidebar-front -->
 
                 <!-- ═══════════════════════════════════ BACK SIDE -->
                 <div class="sidebar-back">
+
+
 
                     <!-- Back button -->
                     <button class="btn-flip" id="btnFlipToFront" aria-label="Back to standard form"
@@ -334,9 +338,9 @@
 
                         <div class="button-group">
                             <button class="btn btn-primary calculateBtn" id="calculateBtnBack"
-                                disabled>Calculate</button>
-                            <button class="btn btn-secondary resetBtn" id="resetBtnBack" disabled>Reset</button>
-                            <button class="btn btn-secondary copyBtn" id="copyBtnBack" disabled>Copy</button>
+                                disabled>Calculate<span class="keycap">↵</span></button>
+                            <button class="btn btn-secondary resetBtn" id="resetBtnBack" disabled>Reset<span class="keycap">R</span></button>
+                            <button class="btn btn-secondary copyBtn" id="copyBtnBack" disabled>Copy<span class="keycap">C</span></button>
                         </div>
                     </div><!-- END .sidebar-body -->
                 </div><!-- END .sidebar-back -->
@@ -368,7 +372,7 @@
                     <div class="results-section">
                         <div class="section-title">Result</div>
                         <div class="metrics-grid">
-                            <div class="metric-card">
+                            <div class="metric-card animate-card" style="animation-delay: 0s;">
                                 <div class="metric-label">
                                     <svg class="icon-svg" viewBox="0 0 24 24">
                                         <path
@@ -379,7 +383,7 @@
                                 </div>
                                 <div class="metric-value" id="refTime"></div>
                             </div>
-                            <div class="metric-card">
+                            <div class="metric-card animate-card" style="animation-delay: 0.05s;">
                                 <div class="metric-label">
                                     <svg class="icon-svg" viewBox="0 0 24 24">
                                         <path
